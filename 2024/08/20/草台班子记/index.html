@@ -11,7 +11,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>Archives | 草台班子</title>
+    <title> | 草台班子</title>
     <meta name="author" content="Latinaxia" />
     <meta name="description" content="世界就是个巨大的草台班子" />
     <meta name="keywords" content="" />
@@ -45,6 +45,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -158,40 +162,51 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            
-<div id="archives">
-    
-    <div id="timeline-wrap" ref="timeline">
+            <div class="article">
+    <div>
+        <h1></h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/8/20
+        </span>
         
-        <div class="timeline" data-title="helloworld">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/8/19</div>
-                <a href="/2024/08/19/hello-world/">
-                    <h3>Hello World</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/8/20</div>
-                <a href="/2024/08/20/%E8%8D%89%E5%8F%B0%E7%8F%AD%E5%AD%90%E8%AE%B0/">
-                    <h3></h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
         
     </div>
+    
+    <div class="content" v-pre>
+        <h1 id="草台班子建站记"><a href="#草台班子建站记" class="headerlink" title="草台班子建站记"></a>草台班子建站记</h1><p>大概是在八月初的时候，在狠狠<del><strong>视奸</strong></del>了Dawson和周周的个人blog之后，我也萌生了建立个人blog的想法<br>但是由于我执行力实在是太差，导致目前对于前端依旧一窍不通，又脸皮薄不好意思麻烦别人，这个计划就搁置了很久，直到<strong>2024-8-18:16:47</strong>，终于破土动工了<br><img src="/../images/%E8%8D%89%E5%8F%B0%E7%8F%AD%E5%AD%90%E8%AE%B0/image.png" alt="alt text"><br><strong>感谢ct，感谢Dawson，感谢涛涛</strong>，在这两天内不厌其烦的回答我的种种愚蠢的问题（有的东西想起来都让我汗颜），终于让我这个连vsc都用不明白的前端小白成功搭建了自己的blog并在GitHub上部署成功</p>
+<h3 id="接下来进入正题"><a href="#接下来进入正题" class="headerlink" title="接下来进入正题"></a>接下来进入正题</h3><p>在正式开始工作（老实来说我对这个词很不感冒，但这两天的遭遇让我感觉自己就是在工作）之后，我才发现建立一个个人blog比自己想象的简单一点点。</p>
+<ul>
+<li>不需要服务器，github-pages提供了现成的部署方式</li>
+<li>不需要自己写代码，<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">hexo</a>（我选用的blog框架）几乎做了所有的代码工作，你要做的只是在合适的位置加上属于自己的东西</li>
+<li>对于懒狗来说连主题都是全自动的，在我建站时hexo提供了一共408个主题供你选择</li>
+<li>npm和pnpm真的超级好用，什么时候maven也能这样。。。</li>
+<li>但话说回来vsc连接GitHub总是超时，无奈只能转战IDEA来完成建站</li>
+</ul>
+<p>当然，在我自己动手实操时，难免有跌跌碰碰<br>但是历经三天时间，在Dawson的指导下，终于成功建站并发布了自己的第一篇blog–《草台班子建站记》，如今我正坐在家中用vsc编辑着md文档（这玩意儿写md真的舒服），纠结要不要按时间对blog进行分包。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>再次感谢Dawson，这两天我们的聊天高达数百条，大多都是我的询问，期间他也远程操控了我的电脑。看到他最近又在开发自己的通用模板和魔改自己的blog，不禁心里有些佩服和羡慕，个人觉得能做出一些看得见的实践获得的成就感远远大于在后端摆弄无聊的逻辑与数据<br><img src="/../images/%E8%8D%89%E5%8F%B0%E7%8F%AD%E5%AD%90%E8%AE%B0/image-1.png" alt="alt text"></p>
+<ul>
+<li>这里是Dawson的blog：<a target="_blank" rel="noopener" href="https://www.betula.space/">https://www.betula.space/</a></li>
+</ul>
+<p>在19号晚上又听闻玉玉通过了字节四道面试拿到前端实习，又狠狠的羡慕了，心潮澎湃，恭喜玉玉（以后再要他的blog）。</p>
+<p>建站遇到的种种bug阻碍我本打算细细列出，顺便痛骂一下hexo的<del>构式</del>文档误人子弟，但实在太懒，今天就先到此为止吧</p>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
 </div>
 
             <footer id="footer">
@@ -225,6 +240,29 @@
     <script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="../source/js/fireworks.min.js"></script>
     <script src="../source/js/background.min.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="Latinaxia/Latinaxia.github.io"
+    data-repo-id="844944765"
+    data-category="Announcements"
+    data-category-id=""
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
     
 </body>
 </html>
