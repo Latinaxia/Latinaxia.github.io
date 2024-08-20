@@ -1,4 +1,12 @@
 
+<canvas
+        id="fireworks"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<canvas
+        id="background"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -200,6 +208,9 @@
         
     </div>
     <script src="/js/main.js"></script>
+    <script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="../source/js/fireworks.min.js"></script>
+    <script src="../source/js/background.min.js"></script>
     
 </body>
 </html>
