@@ -1,12 +1,18 @@
 
+<link rel="stylesheet" href="/js/fireworks.min.js" />
 <canvas
         id="fireworks"
         style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
 ></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.min.js"></script>
 <canvas
         id="background"
         style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
 ></canvas>
+<script src="/js/background.min.js"></script>
+
+
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -236,7 +242,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%9A%8F%E6%83%B3/" style="color: #00a596">随想</a>
+            <a href="/tags/%E9%9A%8F%E6%83%B3/" style="color: #ff7d73">随想</a>
         </span>
         
     </div>
@@ -377,10 +383,9 @@
         </transition>
         
     </div>
-    <script src="/js/main.js"></script>
-    <script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <script src="../source/js/fireworks.min.js"></script>
-    <script src="../source/js/background.min.js"></script>
     
+    <script src="/js/main.js"></script>
+    <script src="../source/js/ribbon.js-master"></script>
+    <script type="text/javascript" size="150" alpha='0.3' zIndex="-2" src="../source/js/ribbon.js-master"></script>
 </body>
 </html>
