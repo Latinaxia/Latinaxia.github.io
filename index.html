@@ -212,26 +212,7 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <h1 id="草台班子建站历程（基于hexo框架的blog搭建的个人blog）"><a href="#草台班子建站历程（基于hexo框架的blog搭建的个人blog）" class="headerlink" title="草台班子建站历程（基于hexo框架的blog搭建的个人blog）"></a>草台班子建站历程（基于hexo框架的blog搭建的个人blog）</h1><p><del>hexo的官方文档实在是过于构式，写下本文记录简单高效的流程</del></p>
-<h3 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h3><ul>
-<li>Git</li>
-<li>Node.js</li>
-<li>npm &amp; pnpm</li>
-</ul>
-<h3 id="框架搭建"><a href="#框架搭建" class="headerlink" title="框架搭建"></a>框架搭建</h3><ol>
-<li>使用npm全局安装hexo<br><code>npm install -g hexo-cli</code></li>
-<li>创建一个空文件夹，进入文件夹，构建hexo<br> <code>hexo init</code></li>
-<li>接下来先选择主题，hexo官网有四百多个主题供选择，选中心仪的主题后在theme文件夹中拉取<br> 例如我的主题是ParticleX：<br><code>git clone https://github.com/theme-particlex/hexo-theme-particlex.git particlex --depth=1</code><br> 之后在根目录_config.yml修改<br> <code>theme: ParticleX</code><br> <em><strong>以上步骤只是一个通用方式，具体配置还需参考对应主题的文档</strong></em></li>
-</ol>
-<h3 id="Github-pages部署"><a href="#Github-pages部署" class="headerlink" title="Github-pages部署"></a>Github-pages部署</h3><ol>
-<li>首先在GitHub创建一个public的空仓库，确保仓库只有一条分支即main，且仓库必须为<username>.github.io,仓库必须为空！</li>
-<li>打开Git Bash，获取SSH密钥<br> <code>ssh-keygen -t ed25519 -C &lt;email&gt;</code><br> <code>eval &quot;$(ssh-agent -s)&quot;</code><br> <code>ssh-add ~/.ssh/id_ed25519</code><br> 由于本人是<strong>Windows</strong>系统，接下来打开powershell：<br> <code>Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | Set-Clipboard</code></li>
-<li>接下来将得到的SSH密钥添加到Github中即可，可以使用以下命令查看是否添加成功：<br> <code>ssh -T git@github.com</code></li>
-<li>在yml文件中添加以下配置：<br><code>url: https://&lt;user&gt;.github.io/</code><br><code>deploy:</code><br><code>type: git</code><br><code>repo: git@github.com:&lt;user&gt;/&lt;user&gt;.github.io.git</code><br><code>branch: main</code><br><code>message:</code></li>
-<li>安装部署所需的插件：<br> <code>pnpm add hexo-deployer-git</code></li>
-<li>在根目录下运行以下命令部署：<br> <code>hexo deploy</code></li>
-<li>等待部署完成，打开浏览器访问https:&#x2F;&#x2F;<username>.github.io&#x2F;即可看到自己的博客啦！</li>
-</ol>
+            <p>Normal <em>Italic</em> <strong>Strong</strong></p>
 
             
         </div>
@@ -271,22 +252,7 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <h1 id="草台班子建站记"><a href="#草台班子建站记" class="headerlink" title="草台班子建站记"></a>草台班子建站记</h1><p>大概是在八月初的时候，在狠狠<del><strong>视奸</strong></del>了Dawson和周周的个人blog之后，我也萌生了建立个人blog的想法<br>但是由于我执行力实在是太差，导致目前对于前端依旧一窍不通，又脸皮薄不好意思麻烦别人，这个计划就搁置了很久，直到<strong>2024-8-18:16:47</strong>，终于破土动工了<br><img src="/../images/%E8%8D%89%E5%8F%B0%E7%8F%AD%E5%AD%90%E8%AE%B0/image.png" alt="alt text"><br><strong>感谢ct，感谢Dawson，感谢涛涛</strong>，在这两天内不厌其烦的回答我的种种愚蠢的问题（有的东西想起来都让我汗颜），终于让我这个连vsc都用不明白的前端小白成功搭建了自己的blog并在GitHub上部署成功</p>
-<h3 id="接下来进入正题"><a href="#接下来进入正题" class="headerlink" title="接下来进入正题"></a>接下来进入正题</h3><p>在正式开始工作（老实来说我对这个词很不感冒，但这两天的遭遇让我感觉自己就是在工作）之后，我才发现建立一个个人blog比自己想象的简单一点点。</p>
-<ul>
-<li>不需要服务器，github-pages提供了现成的部署方式</li>
-<li>不需要自己写代码，<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">hexo</a>（我选用的blog框架）几乎做了所有的代码工作，你要做的只是在合适的位置加上属于自己的东西</li>
-<li>对于懒狗来说连主题都是全自动的，在我建站时hexo提供了一共408个主题供你选择</li>
-<li>npm和pnpm真的超级好用，什么时候maven也能这样。。。</li>
-<li>但话说回来vsc连接GitHub总是超时，无奈只能转战IDEA来完成建站</li>
-</ul>
-<p>当然，在我自己动手实操时，难免有跌跌碰碰<br>但是历经三天时间，在Dawson的指导下，终于成功建站并发布了自己的第一篇blog–《草台班子建站记》，如今我正坐在家中用vsc编辑着md文档（这玩意儿写md真的舒服），纠结要不要按时间对blog进行分包。</p>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>再次感谢Dawson，这两天我们的聊天高达数百条，大多都是我的询问，期间他也远程操控了我的电脑。看到他最近又在开发自己的通用模板和魔改自己的blog，不禁心里有些佩服和羡慕，个人觉得能做出一些看得见的实践获得的成就感远远大于在后端摆弄无聊的逻辑与数据<br><img src="/../images/%E8%8D%89%E5%8F%B0%E7%8F%AD%E5%AD%90%E8%AE%B0/image-1.png" alt="alt text"></p>
-<ul>
-<li>这里是Dawson的blog：<a target="_blank" rel="noopener" href="https://www.betula.space/">https://www.betula.space/</a></li>
-</ul>
-<p>在19号晚上又听闻玉玉通过了字节四道面试拿到前端实习，又狠狠的羡慕了，心潮澎湃，恭喜玉玉（以后再要他的blog）。</p>
-<p>建站遇到的种种bug阻碍我本打算细细列出，顺便痛骂一下hexo的<del>构式</del>文档误人子弟，但实在太懒，今天就先到此为止吧</p>
+            <p>Normal <em>Italic</em> <strong>Strong</strong></p>
 
             
         </div>
@@ -301,7 +267,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%9A%8F%E6%83%B3/" style="color: #03a9f4">随想</a>
+            <a href="/tags/%E9%9A%8F%E6%83%B3/" style="color: #ff7d73">随想</a>
         </span>
         
     </div>
