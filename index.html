@@ -195,6 +195,65 @@
         
 
 <div class="post">
+    <a href="/2024/08/22/%E8%8D%89%E5%8F%B0%E7%8F%AD%E5%AD%90%E5%BB%BA%E7%AB%99%E5%8E%86%E7%A8%8B%EF%BC%88%E5%9F%BA%E4%BA%8EHexo%E6%A1%86%E6%9E%B6%E3%80%81GitHub-pages%E9%83%A8%E7%BD%B2%EF%BC%89/">
+        <h2 class="post-title">草台班子建站历程（基于Hexo框架、GitHub-pages部署）</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/8/22
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="草台班子建站历程（基于hexo框架的blog搭建的个人blog）"><a href="#草台班子建站历程（基于hexo框架的blog搭建的个人blog）" class="headerlink" title="草台班子建站历程（基于hexo框架的blog搭建的个人blog）"></a>草台班子建站历程（基于hexo框架的blog搭建的个人blog）</h1><p><del>hexo的官方文档实在是过于构式，写下本文记录简单高效的流程</del></p>
+<h3 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h3><ul>
+<li>Git</li>
+<li>Node.js</li>
+<li>npm &amp; pnpm</li>
+</ul>
+<h3 id="框架搭建"><a href="#框架搭建" class="headerlink" title="框架搭建"></a>框架搭建</h3><ol>
+<li>使用npm全局安装hexo<br><code>npm install -g hexo-cli</code></li>
+<li>创建一个空文件夹，进入文件夹，构建hexo<br> <code>hexo init</code></li>
+<li>接下来先选择主题，hexo官网有四百多个主题供选择，选中心仪的主题后在theme文件夹中拉取<br> 例如我的主题是ParticleX：<br><code>git clone https://github.com/theme-particlex/hexo-theme-particlex.git particlex --depth=1</code><br> 之后在根目录_config.yml修改<br> <code>theme: ParticleX</code><br> <em><strong>以上步骤只是一个通用方式，具体配置还需参考对应主题的文档</strong></em></li>
+</ol>
+<h3 id="Github-pages部署"><a href="#Github-pages部署" class="headerlink" title="Github-pages部署"></a>Github-pages部署</h3><ol>
+<li>首先在GitHub创建一个public的空仓库，确保仓库只有一条分支即main，且仓库必须为<username>.github.io,仓库必须为空！</li>
+<li>打开Git Bash，获取SSH密钥<br> <code>ssh-keygen -t ed25519 -C &lt;email&gt;</code><br> <code>eval &quot;$(ssh-agent -s)&quot;</code><br> <code>ssh-add ~/.ssh/id_ed25519</code><br> 由于本人是<strong>Windows</strong>系统，接下来打开powershell：<br> <code>Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | Set-Clipboard</code></li>
+<li>接下来将得到的SSH密钥添加到Github中即可，可以使用以下命令查看是否添加成功：<br> <code>ssh -T git@github.com</code></li>
+<li>在yml文件中添加以下配置：<br><code>url: https://&lt;user&gt;.github.io/</code><br><code>deploy:</code><br><code>type: git</code><br><code>repo: git@github.com:&lt;user&gt;/&lt;user&gt;.github.io.git</code><br><code>branch: main</code><br><code>message:</code></li>
+<li>安装部署所需的插件：<br> <code>pnpm add hexo-deployer-git</code></li>
+<li>在根目录下运行以下命令部署：<br> <code>hexo deploy</code></li>
+<li>等待部署完成，打开浏览器访问https:&#x2F;&#x2F;<username>.github.io&#x2F;即可看到自己的博客啦！</li>
+</ol>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">笔记</a>
+        </span>
+        
+    </div>
+    <a href="/2024/08/22/%E8%8D%89%E5%8F%B0%E7%8F%AD%E5%AD%90%E5%BB%BA%E7%AB%99%E5%8E%86%E7%A8%8B%EF%BC%88%E5%9F%BA%E4%BA%8EHexo%E6%A1%86%E6%9E%B6%E3%80%81GitHub-pages%E9%83%A8%E7%BD%B2%EF%BC%89/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/08/20/%E8%8D%89%E5%8F%B0%E7%8F%AD%E5%AD%90%E8%AE%B0/">
         <h2 class="post-title">草台班子记</h2>
     </a>
@@ -242,7 +301,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%9A%8F%E6%83%B3/" style="color: #00bcd4">随想</a>
+            <a href="/tags/%E9%9A%8F%E6%83%B3/" style="color: #03a9f4">随想</a>
         </span>
         
     </div>
