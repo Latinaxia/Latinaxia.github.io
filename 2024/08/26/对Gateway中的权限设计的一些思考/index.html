@@ -17,7 +17,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>草台班子建站历程（基于Hexo框架、GitHub-pages部署） | 草台班子</title>
+    <title>对Gateway中的权限设计的一些思考 | 草台班子</title>
     <meta name="author" content="Latinaxia" />
     <meta name="description" content="世界就是个巨大的草台班子" />
     <meta name="keywords" content="" />
@@ -170,14 +170,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>草台班子建站历程（基于Hexo框架、GitHub-pages部署）</h1>
+        <h1>对Gateway中的权限设计的一些思考</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/8/22
+            2024/8/26
         </span>
         
         
@@ -189,8 +189,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">
-                    笔记
+                <a href="/tags/%E9%9A%8F%E6%83%B3/" style="color: #ffa2c4">
+                    随想
                 </a>
             </span>
             
@@ -199,26 +199,49 @@
     </div>
     
     <div class="content" v-pre>
-        <p><del>hexo的官方文档实在是过于构式，写下本文记录简单高效的流程</del></p>
-<h3 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h3><ul>
-<li>Git</li>
-<li>Node.js</li>
-<li>npm &amp; pnpm</li>
+        <style>
+    .bg-text {
+        background-color: #abdad2;
+        padding: .2rem .4rem;
+        border-radius: 4px;
+    }
+</style>
+
+<h3 id="权限认证不能放在Gateway中？"><a href="#权限认证不能放在Gateway中？" class="headerlink" title="权限认证不能放在Gateway中？"></a>权限认证不能放在Gateway中？</h3><p>最近在网上冲浪时看见评论区有程序员抱怨自己被在某乎讨论<strong>权限设计</strong>时被冲，而对方的观点是微服务的权限要放在Gateway中<br>，他大为震惊。下面评论纷纷附和并把矛头直指某马程序员的教法。刚好本人最近也在练习某头条的微服务项目，看到这里不禁背后一凉。<br><img src="/img.png" alt="img.png"><br>确实如此，在某头条中就采用了Gateway做权限处理的方式，所有请求都要事先经过Filter，通过对请求头中的token进行解析来判断是否放行。  </p>
+<h3 id="这种方法真的错了吗？"><a href="#这种方法真的错了吗？" class="headerlink" title="这种方法真的错了吗？"></a>这种方法真的错了吗？</h3><p>上网搜索 “微服务的权限认证” ，众多文章无一不例外的告诉我们微服务的权限要放在Gateway中，好像并不只是某马这样做。<br>而我自己也没有参与过企业项目的开发，无法根据自身经验评判是非。正当我陷入茫然之时，又看到了接下来的回复 ：<br><img src="/img_1.png" alt="img_1.png"><br>至此场景已经比较清晰了，对方想要通过微服务的方式将权限管理，服务管理这些业务做成一个通用的、在新的场景下也不用进行二次开发的服务。<br>听起来怪怪的，原来是打上了一劳永逸的算盘。那么先抛开权限认证，来钻研一下微服务的目的是什么吧</p>
+<h3 id="微服务的目的是什么，什么是弹性？"><a href="#微服务的目的是什么，什么是弹性？" class="headerlink" title="微服务的目的是什么，什么是弹性？"></a>微服务的目的是什么，什么是弹性？</h3><p>通过询问ai可以得到以下答案：<br>微服务架构是一种软件开发技术，它将一个大型应用程序分解为一组小型、独立的服务。这些服务可以独立开发、部署和扩展，从而实现更高的灵活性和可维护性。在Java开发中，使用微服务的目的主要有以下几点：</p>
+<ol>
+<li><p>可伸缩性：微服务允许你根据需要对每个服务进行扩展，而不是整个应用程序。这意味着你可以为关键服务分配更多资源，而不需要为整个应用程序分配资源。</p>
+</li>
+<li><p>独立性：微服务可以独立开发、部署和扩展，这意味着你可以在不影响其他服务的情况下对单个服务进行更改。这有助于提高开发速度和降低风险。</p>
+</li>
+<li><p>技术多样性：微服务允许你在不同的服务中使用不同的技术栈。这意味着你可以为每个服务选择最合适的技术，从而提高整体性能和效率。</p>
+</li>
+<li><p>故障隔离：在微服务架构中，如果一个服务出现故障，它不会影响到其他服务。这有助于提高系统的稳定性和可靠性。</p>
+</li>
+<li><p>团队自治：微服务允许团队独立负责特定的服务，从而提高开发速度和质量。</p>
+</li>
+</ol>
+<p>微服务的弹性体现在以下几个方面：</p>
+<ol>
+<li><p>容错性：由于微服务之间是独立的，因此一个服务的故障不会影响到其他服务。这有助于提高系统的容错能力。</p>
+</li>
+<li><p>负载均衡：微服务可以根据每个服务的负载情况动态调整资源分配，从而实现负载均衡。</p>
+</li>
+<li><p>自动恢复：微服务可以在发生故障时自动恢复，从而提高系统的可用性。</p>
+</li>
+<li><p>动态扩展：微服务可以根据需求动态扩展或缩减资源，从而实现更高的资源利用率。</p>
+</li>
+<li><p>版本控制：微服务允许你独立更新和回滚每个服务的版本，从而实现更灵活的版本控制。</p>
+</li>
+</ol>
+<p>又在<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2022/04/microservice.html">阮一峰</a>的博客里得到了大差不差的回答。我心中的微服务观念也变得明确了起来<br><span class="bg-text"> <strong>功能解耦</strong></span> 毫无疑问是开发中永恒不变的追求。微服务的产生也顺应了这个追求。一个原本功能复杂的庞大的<strong>单体项目</strong>，<br>在拆分成为<strong>微服务</strong>后，各个模块都是独立的进程可以独立运行。<strong>微服务的弹性</strong>也就由此体现，不会因为其中任何一个模块的瘫痪而导致整个服务的瘫痪</p>
+<h3 id="回过头来"><a href="#回过头来" class="headerlink" title="回过头来"></a>回过头来</h3><p>明确了微服务的目的后再接着看上面的问题，心中已然有了定数。<br><strong>微服务的目的绝不是一劳永逸。代码是要遵循需求的不断变化的。</strong><br>而将权限认证一股脑丢到Gateway中正是前者的表现。个人认为，应该在每个微服务中都实现过滤器和拦截器来进行权限认证：</p>
+<ul>
+<li><span class="bg-text"> 功能解耦 </span>：每个微服务都可以独立的处理自己的过滤器和拦截器，不需要依赖其他服务和外部系统。减少了系统的复杂度，提高了可维护性和可扩展性。避免了因其他服务失效而导致自己“裸奔”的情况出现</li>
+<li><span class="bg-text"> 灵活性 </span>：每个微服务可以根据其特定的业务需求定制过滤器和拦截器的实现。有的服务可能需要复杂的权限认证，而有的可以只需要基本的授权。此时定制权限认证就显得尤为可贵</li>
 </ul>
-<h3 id="框架搭建"><a href="#框架搭建" class="headerlink" title="框架搭建"></a>框架搭建</h3><ol>
-<li>使用npm全局安装hexo<br><code>npm install -g hexo-cli</code></li>
-<li>创建一个空文件夹，进入文件夹，构建hexo<br> <code>hexo init</code></li>
-<li>接下来先选择主题，hexo官网有四百多个主题供选择，选中心仪的主题后在theme文件夹中拉取<br> 例如我的主题是ParticleX：<br><code>git clone https://github.com/theme-particlex/hexo-theme-particlex.git particlex --depth=1</code><br> 之后在根目录_config.yml修改<br> <code>theme: ParticleX</code><br> <em><strong>以上步骤只是一个通用方式，具体配置还需参考对应主题的文档</strong></em></li>
-</ol>
-<h3 id="Github-pages部署"><a href="#Github-pages部署" class="headerlink" title="Github-pages部署"></a>Github-pages部署</h3><ol>
-<li>首先在GitHub创建一个public的空仓库，确保仓库只有一条分支即main，且仓库必须为<username>.github.io,仓库必须为空！</li>
-<li>打开Git Bash，获取SSH密钥<br> <code>ssh-keygen -t ed25519 -C &lt;email&gt;</code><br> <code>eval &quot;$(ssh-agent -s)&quot;</code><br> <code>ssh-add ~/.ssh/id_ed25519</code><br> 由于本人是<strong>Windows</strong>系统，接下来打开powershell：<br> <code>Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | Set-Clipboard</code></li>
-<li>接下来将得到的SSH密钥添加到Github中即可，可以使用以下命令查看是否添加成功：<br> <code>ssh -T git@github.com</code></li>
-<li>在yml文件中添加以下配置：<br><code>url: https://&lt;user&gt;.github.io/</code><br><code>deploy:</code><br><code>type: git</code><br><code>repo: git@github.com:&lt;user&gt;/&lt;user&gt;.github.io.git</code><br><code>branch: main</code><br><code>message:</code></li>
-<li>安装部署所需的插件：<br> <code>pnpm add hexo-deployer-git</code></li>
-<li>在根目录下运行以下命令部署：<br> <code>hexo deploy</code></li>
-<li>等待部署完成，打开浏览器访问https:&#x2F;&#x2F;<username>.github.io&#x2F;即可看到自己的博客啦！</li>
-</ol>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>仔细深挖后才发现某头条其实也并没有错，他的业务场景中，服务的使用者有两种人群：自媒体、用户。他在Gateway中实现了过滤器先对token进行认证。然后又在service微服务中再对自媒体定制拦截器，将其信息存入线程。算是偷了个懒，把过滤器抽出来了。但是由于他的业务场景对权限的要求不严，因为这样做的最坏结果也就是Gateway失效后用户操作在裸奔，还是对自媒体的隐私有保护的。。。</p>
 
     </div>
     
