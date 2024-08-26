@@ -469,7 +469,7 @@
     word-wrap: break-word;
 }
 .article {
-    font-size: 15px;
+    font-size: 20px; /* 修改文章字体大小 */
     margin: auto;
     margin-top: 100px;
     padding: 20px;

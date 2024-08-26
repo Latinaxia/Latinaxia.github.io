@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">
                     笔记
                 </a>
             </span>
@@ -200,17 +200,17 @@
     
     <div class="content" v-pre>
         <p><del>hexo的官方文档实在是过于构式，写下本文记录简单高效的流程</del></p>
-<h3 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h3><ul>
+<h2 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h2><ul>
 <li>Git</li>
 <li>Node.js</li>
 <li>npm &amp; pnpm</li>
 </ul>
-<h3 id="框架搭建"><a href="#框架搭建" class="headerlink" title="框架搭建"></a>框架搭建</h3><ol>
+<h2 id="框架搭建"><a href="#框架搭建" class="headerlink" title="框架搭建"></a>框架搭建</h2><ol>
 <li>使用npm全局安装hexo<br><code>npm install -g hexo-cli</code></li>
 <li>创建一个空文件夹，进入文件夹，构建hexo<br> <code>hexo init</code></li>
 <li>接下来先选择主题，hexo官网有四百多个主题供选择，选中心仪的主题后在theme文件夹中拉取<br> 例如我的主题是ParticleX：<br><code>git clone https://github.com/theme-particlex/hexo-theme-particlex.git particlex --depth=1</code><br> 之后在根目录_config.yml修改<br> <code>theme: ParticleX</code><br> <em><strong>以上步骤只是一个通用方式，具体配置还需参考对应主题的文档</strong></em></li>
 </ol>
-<h3 id="Github-pages部署"><a href="#Github-pages部署" class="headerlink" title="Github-pages部署"></a>Github-pages部署</h3><ol>
+<h2 id="Github-pages部署"><a href="#Github-pages部署" class="headerlink" title="Github-pages部署"></a>Github-pages部署</h2><ol>
 <li>首先在GitHub创建一个public的空仓库，确保仓库只有一条分支即main，且仓库必须为<username>.github.io,仓库必须为空！</li>
 <li>打开Git Bash，获取SSH密钥<br> <code>ssh-keygen -t ed25519 -C &lt;email&gt;</code><br> <code>eval &quot;$(ssh-agent -s)&quot;</code><br> <code>ssh-add ~/.ssh/id_ed25519</code><br> 由于本人是<strong>Windows</strong>系统，接下来打开powershell：<br> <code>Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | Set-Clipboard</code></li>
 <li>接下来将得到的SSH密钥添加到Github中即可，可以使用以下命令查看是否添加成功：<br> <code>ssh -T git@github.com</code></li>
