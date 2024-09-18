@@ -1,0 +1,446 @@
+
+<link rel="stylesheet" href="/js/fireworks.min.js" />
+<canvas
+        id="fireworks"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.min.js"></script>
+<canvas
+        id="background"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>深挖单例模式 | 草台班子</title>
+    <meta name="author" content="Latinaxia" />
+    <meta name="description" content="世界就是个巨大的草台班子" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>草台班子</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;草台班子</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>深挖单例模式</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/9/18
+        </span>
+        
+        <span class="category">
+            <a href="/categories/Java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Java
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">
+                    笔记
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+          <span id="more"></span>
+<hr>
+<p>在Java运行时中，有些较为庞大复杂的类，如果频繁的创建和销毁对象，会造成系统的性能下降。<br>为 了解决这个问题，我们可以应用<strong>单例模式</strong>。</p>
+<h2 id="什么是单例模式"><a href="#什么是单例模式" class="headerlink" title="什么是单例模式"></a>什么是单例模式</h2><p>单例模式，顾名思义，就是一个类只有一个实例。在Java中，单例模式有<strong>通常</strong>两种实现方式（在深挖之前我是这么觉得的）：饿汉式和懒汉式。他们的实现思想可以从以下三点入手：</p>
+<ol>
+<li>是否线程安全</li>
+<li>是否懒加载</li>
+<li>能否反射破坏</li>
+</ol>
+<h3 id="饿汉式单例模式"><a href="#饿汉式单例模式" class="headerlink" title="饿汉式单例模式"></a>饿汉式单例模式</h3><p>饿汉式单例模式，是在类加载时就创建单例对象，这种方式比较简单，但缺点也很明显，就是在类加载时就完成实例化，如果类中存在资源耗费的操作，则会造成资源浪费。</p>
+<pre><code class="java">public class Hungry &#123;
+    private  Hungry()&#123;&#125;
+ 
+    private final static Hungry HUNGRY = new Hungry();
+    
+    public static Hungry getInstance()&#123;
+        return HUNGRY;
+    &#125;
+    
+&#125;
+</code></pre>
+<h3 id="懒汉式单例模式"><a href="#懒汉式单例模式" class="headerlink" title="懒汉式单例模式"></a>懒汉式单例模式</h3><p>懒汉式单例模式，是在第一次调用getInstance()方法时才创建单例对象，这种方式比较常用，但也存在线程安全问题。</p>
+<pre><code class="java">public class Lazy &#123;
+    private Lazy()&#123;&#125;
+ 
+    private static Lazy lazy;
+    
+    public static Lazy getInstance()&#123;
+        if(lazy == null)&#123;
+            lazy = new Lazy();
+        &#125;
+        return lazy;
+    &#125;
+    
+&#125;
+</code></pre>
+<p>但在多线程情况下，以上代码会出现问题，因为在多线程环境下，可能会创建多个实例对象。为了解决这个问题，我们可以加锁，常见的是使用双重检查锁定。</p>
+<h4 id="双检锁（常用的）"><a href="#双检锁（常用的）" class="headerlink" title="双检锁（常用的）"></a>双检锁（常用的）</h4><pre><code class="java">public class Lazy &#123;
+    private Lazy()&#123;&#125;
+ 
+    private static Lazy lazy;
+    
+    public static Lazy getInstance()&#123;
+        if(lazy == null)&#123;
+            synchronized (Lazy.class)&#123;//第一道检查
+                if(lazy == null)&#123;//第二道检查
+                    lazy = new Lazy();
+                &#125;
+            &#125;
+        &#125;
+        return lazy;
+    &#125;
+    
+&#125;
+</code></pre>
+<p>双检锁看似已经解决了线程安全问题，但其实还是有问题。 详情可参考happens-before原则<br><br>因为<code>lazy = new Lazy()</code>并不是一个<strong>原子性操作</strong>，在指令层面，这个操作可以分为三步</p>
+<ol>
+<li>分配内存空间</li>
+<li>执行构造方法，初始化对象</li>
+<li>把对象指向这个空间<br>
+而在真正执行时，虚拟机为了效率可能会对这三步操作进行重排，比如，***步骤2和步骤3可以交换顺序***。</li>
+</ol>
+<h4 id="所以灾难就发生了。"><a href="#所以灾难就发生了。" class="headerlink" title="所以灾难就发生了。"></a>所以灾难就发生了。</h4><blockquote>
+<p>在多线程环境下，假设我有两个线程A和B，如果步骤2和步骤3交换顺序，在A执行完3还没来得及执行2的时候，<br>lazy已经不是null了，这时B恰好走到了<code>if(lazy == null)</code>这一步，<br>此时B就会直接返回一个未初始化的对象，导致程序出错。</p>
+</blockquote>
+<p>为了解决这个问题也不难，只需要在<code>private static Lazy lazy</code>中加上<code>volatile</code>关键字即可，它的主要作用是<strong>确保变量的可见性和防止指令重排序</strong></p>
+<p>双检锁唯一的缺点可能就是实现起来较为繁琐，那有没有既满足了懒加载，也满足了线程安全同时效率高且简洁的单例模式呢？</p>
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>静态内部类在程序启动的时候不会加载，第一次被调用时才会加载</p>
+<pre><code class="java">public class Holder &#123;
+    private static class HolderInstance&#123;
+        private static final Holder INSTANCE = new Holder();
+    &#125;
+    
+    private Holder() &#123;&#125;
+
+    public static Holder getInstance()&#123;
+        return HolderInstance.INSTANCE;
+    &#125;
+    
+&#125;
+</code></pre>
+<h2 id="但是以上的所有写法都是不安全的，都可以通过反射来破解！"><a href="#但是以上的所有写法都是不安全的，都可以通过反射来破解！" class="headerlink" title="但是以上的所有写法都是不安全的，都可以通过反射来破解！"></a>但是以上的所有写法都是不安全的，都可以通过反射来破解！</h2><h3 id="反射破坏单例模式"><a href="#反射破坏单例模式" class="headerlink" title="反射破坏单例模式"></a>反射破坏单例模式</h3><pre><code class="java">    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException &#123;
+        Lazy instance = Lazy.getInstance();
+        Constructor&lt;Lazy&gt; lazyConstructor = Lazy.class.getDeclaredConstructor(null);
+        lazyConstructor.setAccessible(true);
+        Lazy instance2 = lazyConstructor.newInstance();
+        System.out.println(instance);
+        System.out.println(instance2);
+        System.out.println(instance == instance2);
+    &#125;
+</code></pre>
+<p>利用反射来突破访问控制，创建一个私有构造函数的实例，最终运行的结果如下<br><img src="/../images/%E6%B7%B1%E6%8C%96%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/img.png" alt="img.png"><br>可见“成功”突破了单例模式，创建了两个不同实例<br>但反射的本质上还是通过将无参构造器暴露出来，然后调用newInstance()方法来创建对象，这就使得单例模式被破坏了。<br>想要解决也可以，在无参构造中也加把锁就行了</p>
+<pre><code class="java"> private Lazy()&#123;
+        synchronized (Lazy.class)&#123;
+            if(lazy != null)&#123;
+                throw new RuntimeException(&quot;不要通过反射破坏单例！&quot;)
+            &#125;
+        &#125;
+    &#125;
+</code></pre>
+<h3 id="问题看似又被解决了"><a href="#问题看似又被解决了" class="headerlink" title="问题看似又被解决了"></a>问题看似又被解决了</h3><p>但是道高一尺魔高一丈，如果我在反射中不使用getInstance()方法，而是直接使用构造器new一个对象，会怎么样呢？</p>
+<pre><code class="java">    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException &#123;
+//        Lazy instance = Lazy.getInstance(); 不使用getInstance()方法
+        Constructor&lt;Lazy&gt; lazyConstructor = Lazy.class.getDeclaredConstructor(null);
+        lazyConstructor.setAccessible(true);
+        Lazy instance2 = lazyConstructor.newInstance();
+        System.out.println(instance);
+        System.out.println(instance2);
+        System.out.println(instance == instance2);
+    &#125;
+</code></pre>
+<p>“锁”再次被攻破了<br><img src="/../images/%E6%B7%B1%E6%8C%96%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/img1.png" alt="img.png"><br>不要灰心，我们仍可以通过添加新字段，即再次“加锁”来解决，但是这样一层层下去，代码会越来越复杂。而再牢固的锁，也会被撬开。我们不妨从底层入手，看看到底怎样才能彻底根除反射破坏</p>
+<h3 id="反射的底层实现"><a href="#反射的底层实现" class="headerlink" title="反射的底层实现"></a>反射的底层实现</h3><p>反射的底层实现是通过调用<code>java.lang.reflect.Constructor</code>类的<code>newInstance()</code>方法来创建对象。<br><img src="/../images/%E6%B7%B1%E6%8C%96%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/img2.png" alt="img.png"><br>通过底层代码可以看出，枚举类型是无法通过反射创建对象的，因为枚举类型是编译时就已经确定了，所以在编译时就已经确定了构造器，而反射是在运行时才确定构造器的。</p>
+<h4 id="验证反射是否可以破坏枚举"><a href="#验证反射是否可以破坏枚举" class="headerlink" title="验证反射是否可以破坏枚举"></a>验证反射是否可以破坏枚举</h4><pre><code class="java">public enum Single &#123;
+    INSTANCE;
+    public Single getInstance()&#123;
+        return INSTANCE;
+    &#125;
+&#125;
+
+class Test&#123;
+    public static void main(String[] args) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException &#123;
+        Single s1 = Single.INSTANCE;
+        Constructor&lt;Single&gt; declaredConstructor = Single.class.getDeclaredConstructor(null);
+        declaredConstructor.setAccessible(true);
+        Single s2 = declaredConstructor.newInstance();
+        System.out.println(s1 == s2);
+    &#125;
+&#125;
+</code></pre>
+<p>运行一下，程序确实抛出异常，但却不是因为枚举无法通过反射创建对象的异常”Cannot reflectively create enum objects”，而是找不到无参构造，这又是为什么呢？<br><img src="/../images/%E6%B7%B1%E6%8C%96%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/img3.png" alt="img.png"></p>
+<h3 id="虚假的无参构造"><a href="#虚假的无参构造" class="headerlink" title="虚假的无参构造"></a>虚假的无参构造</h3><p>class文件告诉我们，枚举中只存在一个无参构造器，而上面的运行结果却是找不到无参构造器。那么枚举的构造器到底是什么？<br><img src="/../images/%E6%B7%B1%E6%8C%96%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/img4.png" alt="img.png"></p>
+<h3 id="再往下一层"><a href="#再往下一层" class="headerlink" title="再往下一层"></a>再往下一层</h3><p>最后在Enum.java的源码中发现，枚举实际上是重写了父类的签名为(String name,int ordinal)的构造函数，而在编译时，编译器会自动添加一个无参构造器，所以枚举的构造器实际上是有参的。<br>再次修改代码，验证枚举的构造器是否可以被反射破坏</p>
+<pre><code class="java">public enum Single &#123;
+    INSTANCE;
+    public Single getInstance()&#123;
+        return INSTANCE;
+    &#125;
+&#125;
+
+class Test&#123;
+    public static void main(String[] args) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException &#123;
+        Single s1 = Single.INSTANCE;
+        Constructor&lt;Single&gt; declaredConstructor = Single.class.getDeclaredConstructor(String.class,int.class);
+        declaredConstructor.setAccessible(true);
+        Single s2 = declaredConstructor.newInstance();
+        System.out.println(s1 == s2);
+    &#125;
+&#125;
+</code></pre>
+<p>如愿以偿<br><img src="/img5.png" alt="img.png"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1pt4y1X7kt/?spm_id_from=333.337.search-card.all.click&vd_source=ba555caf87e1e2f9c37b53d8c4b0e3e8">寒食君</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1K54y197iS/?spm_id_from=333.788.top_right_bar_window_history.content.click&vd_source=ba555caf87e1e2f9c37b53d8c4b0e3e8">狂神说Java</a></p>
+<p>写于2024-09-19深夜，既时和华哥又聊了很多，深有感触</p>
+<h2 id="附：单例模式的应用场景"><a href="#附：单例模式的应用场景" class="headerlink" title="附：单例模式的应用场景"></a>附：单例模式的应用场景</h2><p>单例模式的应用场景有很多，比如：</p>
+<ol>
+<li>数据库连接池</li>
+<li>日志对象</li>
+<li>线程池</li>
+<li>应用配置对象</li>
+<li>应用缓存对象</li>
+<li>注册表对象</li>
+<li>全局配置对象</li>
+<li>应用上下文对象</li>
+<li>全局状态对象</li>
+</ol>
+
+    </div>
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            202 - 2024 草台班子
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Latinaxia
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="Latinaxia/Latinaxia.github.io"
+    data-repo-id="844944765"
+    data-category="Announcements"
+    data-category-id=""
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+    <script src="/js/main.js"></script>
+    <script src="../source/js/ribbon.js-master"></script>
+    <script type="text/javascript" size="150" alpha='0.3' zIndex="-2" src="../source/js/ribbon.js-master"></script>
+</body>
+</html>
