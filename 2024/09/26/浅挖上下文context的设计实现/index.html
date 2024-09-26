@@ -17,7 +17,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>草台班子记 | 草台班子</title>
+    <title>浅挖上下文context的设计实现 | 草台班子</title>
     <meta name="author" content="Latinaxia" />
     <meta name="description" content="世界就是个巨大的草台班子" />
     <meta name="keywords" content="" />
@@ -170,14 +170,23 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>草台班子记</h1>
+        <h1>浅挖上下文context的设计实现</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/8/20
+            2024/9/26
+        </span>
+        
+        <span class="category">
+            <a href="/categories/Go/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Go
+            </a>
         </span>
         
         
@@ -189,7 +198,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E9%9A%8F%E6%83%B3/" style="color: #ffa2c4">
+                <a href="/tags/%E9%9A%8F%E6%83%B3/" style="color: #00bcd4">
                     随想
                 </a>
             </span>
@@ -199,22 +208,89 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="草台班子建站记"><a href="#草台班子建站记" class="headerlink" title="草台班子建站记"></a>草台班子建站记</h1><p>大概是在八月初的时候，在狠狠<del><strong>视奸</strong></del>了Dawson和周周的个人blog之后，我也萌生了建立个人blog的想法<br>但是由于我执行力实在是太差，导致目前对于前端依旧一窍不通，又脸皮薄不好意思麻烦别人，这个计划就搁置了很久，直到<strong>2024-8-18:16:47</strong>，终于破土动工了<br><img src="/../images/%E8%8D%89%E5%8F%B0%E7%8F%AD%E5%AD%90%E8%AE%B0/image.png" alt="alt text"><br><strong>感谢ct，感谢Dawson，感谢涛涛</strong>，在这两天内不厌其烦的回答我的种种愚蠢的问题（有的东西想起来都让我汗颜），终于让我这个连vsc都用不明白的前端小白成功搭建了自己的blog并在GitHub上部署成功</p>
-<h2 id="接下来进入正题"><a href="#接下来进入正题" class="headerlink" title="接下来进入正题"></a>接下来进入正题</h2><p>在正式开始工作（老实来说我对这个词很不感冒，但这两天的遭遇让我感觉自己就是在工作）之后，我才发现建立一个个人blog比自己想象的简单一点点。</p>
-<ul>
-<li>不需要服务器，github-pages提供了现成的部署方式</li>
-<li>不需要自己写代码，<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">hexo</a>（我选用的blog框架）几乎做了所有的代码工作，你要做的只是在合适的位置加上属于自己的东西</li>
-<li>对于懒狗来说连主题都是全自动的，在我建站时hexo提供了一共408个主题供你选择</li>
-<li>npm和pnpm真的超级好用，什么时候maven也能这样。。。</li>
-<li>但话说回来vsc连接GitHub总是超时，无奈只能转战IDEA来完成建站</li>
-</ul>
-<p>当然，在我自己动手实操时，难免有跌跌碰碰<br>但是历经三天时间，在Dawson的指导下，终于成功建站并发布了自己的第一篇blog–《草台班子建站记》，如今我正坐在家中用vsc编辑着md文档（这玩意儿写md真的舒服），纠结要不要按时间对blog进行分包。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>再次感谢Dawson，这两天我们的聊天高达数百条，大多都是我的询问，期间他也远程操控了我的电脑。看到他最近又在开发自己的通用模板和魔改自己的blog，不禁心里有些佩服和羡慕，个人觉得能做出一些看得见的实践获得的成就感远远大于在后端摆弄无聊的逻辑与数据<br><img src="/../images/%E8%8D%89%E5%8F%B0%E7%8F%AD%E5%AD%90%E8%AE%B0/image-1.png" alt="alt text"></p>
-<ul>
-<li>这里是Dawson的blog：<a target="_blank" rel="noopener" href="https://www.betula.space/">https://www.betula.space/</a></li>
-</ul>
-<p>在19号晚上又听闻玉玉通过了字节四道面试拿到前端实习，又狠狠的羡慕了，心潮澎湃，恭喜玉玉（以后再要他的blog）。</p>
-<p>建站遇到的种种bug阻碍我本打算细细列出，顺便痛骂一下hexo的<del>构式</del>文档误人子弟，但实在太懒，今天就先到此为止吧</p>
+        <span id="more"></span>
+<hr>
+<p>参考<a target="_blank" rel="noopener" href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-context/#612-%E9%BB%98%E8%AE%A4%E4%B8%8A%E4%B8%8B%E6%96%87">Go语言的设计实现</a>（看完后才发现作者是k8s的contributor，膜拜）<br>但是因为go的版本不同源码有点小小的变换，整体思路是一致的。</p>
+<hr>
+<p>学go也有大半个月了，速通了基础语法和gin，做了IM和shorter-url练手，感觉不错。但最近整体还是很迷茫，做好了考研的打算但还是放不下自己的三脚猫功夫。反正时间还早，索性就跟着兴趣学了。<br>刚好前段时间看了小徐先生的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1k14y117di/?spm_id_from=333.1365.top_right_bar_window_default_collection.content.click&vd_source=ba555caf87e1e2f9c37b53d8c4b0e3e8">Golang打怪升级之路</a><br>，他在筑基篇提到的大多数技术我都在Java中有所了解，唯有context除外。而Gin中context也是频繁出现</p>
+<h1 id="设计原理"><a href="#设计原理" class="headerlink" title="设计原理"></a>设计原理</h1><p><strong>Go语言设计与实现</strong>的定义中，上下文 context.Context是</p>
+<blockquote>
+<p><em><strong>用来设置截止日期、同步信号，传递请求相关值的结构体</strong></em></p>
+</blockquote>
+<p>单看context的源码也能看出来</p>
+<pre><code class="golang">type Context interface &#123;
+    Deadline() (deadline time.Time, ok bool)
+    Done() &lt;-chan struct&#123;&#125;
+    Err() error
+    Value(key any) any
+&#125;
+</code></pre>
+<p>有日期，有channel，还有error。这里的any类型实质上还是interface{}，可以存放任意类型的值。<br><strong>Go语言设计与实现</strong>中又说</p>
+<blockquote>
+<p>在 Goroutine 构成的树形结构中对信号进行同步以减少计算资源的浪费是 context.Context 的最大作用。<br>Go 服务的每一个请求都是通过单独的 Goroutine 处理的2，HTTP&#x2F;RPC 请求的处理器会启动新的 Goroutine 访问数据库和其他服务。</p>
+</blockquote>
+<p>这里goroutine的底层我还没有能力看，只用知道context是go协程的同步有用。在一次请求中，我们可能会创建多个goroutine，这些协程之间需要同步的数据，context因此产生，“上下文”用来形容真的是再好不过了<br>附一张大佬的图<br><img src="/../images/%E6%B5%85%E6%8C%96%E4%B8%8A%E4%B8%8B%E6%96%87context%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0/img.png" alt="img.png"></p>
+<h1 id="常用实现"><a href="#常用实现" class="headerlink" title="常用实现"></a>常用实现</h1><p>这段时间的学习中，go中最常用的context实现大概是<strong>context.Background</strong>和<strong>context.TODO</strong>，看了下源码，二者其实又没有区别，都是返回了一个emptyCtx，也就是一个空的context。<br><img src="/../images/%E6%B5%85%E6%8C%96%E4%B8%8A%E4%B8%8B%E6%96%87context%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0/img1.png" alt="img.png"><br>可以看到emptyCtx也是通过空方法实现了 context.Context 接口中的所有方法，它没有任何功能。正是如此，我们才能自由发挥。<br>Gin中的gin.Context也视为标准库的 context.Context 的一个超集，是松子酒基石（想写自己的goweb框架是不是也要从这方面入手？以后再看看其他框架是怎么做的吧）</p>
+<h2 id="取消方法"><a href="#取消方法" class="headerlink" title="取消方法"></a>取消方法</h2><p>有始有终，常用的context取消方法几乎都是WithXXX（WithValue除外），原理都一样。  摘取其中一个的解释</p>
+<blockquote>
+<p>context.WithCancel 函数能够从 context.Context 中衍生出一个新的子上下文并返回用于取消该上下文的函数。<br>一旦我们执行返回的取消函数，当前上下文以及它的子上下文都会被取消，所有的 Goroutine 都会同步收到这一取消信号。</p>
+</blockquote>
+<p>取消信号的底层函数</p>
+<pre><code class="golang">func (c *cancelCtx) propagateCancel(parent Context, child canceler)
+</code></pre>
+<h2 id="传值方法"><a href="#传值方法" class="headerlink" title="传值方法"></a>传值方法</h2><p>据<strong>Go语言设计与实现</strong>的作者所说，传值的功能很少用到，仅作了解。  </p>
+<blockquote>
+<p>在真正使用传值的功能时我们也应该非常谨慎，使用 context.Context 传递请求的所有参数一种非常差的设计，<br>比较常见的使用场景是传递请求对应用户的认证令牌以及用于进行分布式追踪的请求 ID。</p>
+</blockquote>
+<p>Gin也是对context做了许多处理才拿来用的<br>上面提到的WithValue就是传值方法，它可以将任意值绑定到上下文中，供后续使用。但是最后返回的值还是valueCtx的指针，valueCtx实现如下</p>
+<pre><code class="golang">type valueCtx struct &#123;
+    Context
+    key, val interface&#123;&#125;
+&#125;
+
+func (c *valueCtx) Value(key interface&#123;&#125;) interface&#123;&#125; &#123;
+    if c.key == key &#123;
+        return c.val
+    &#125;
+    return c.Context.Value(key)
+&#125;
+</code></pre>
+<blockquote>
+<p>如果 context.valueCtx 中存储的键值对与 context.valueCtx.Value 方法中传入的参数不匹配，<br>就会从父上下文中查找该键对应的值直到某个父上下文中返回 nil 或者查找到对应的值。</p>
+</blockquote>
+<p>写到这里已经是9.27深夜了，这篇blog只是对大佬的文章做了个记录，毕竟我能看懂已经很费力了。。。<br>今天观摩了华哥的恒生笔试，压力山大，不知道一年后的自己是在写考研题还是笔试题？昨天又和达哥聊了很多，感觉更大可能是前者吧<br>打把lol睡了</p>
+<hr>
+<h3 id="附：context小练手源码"><a href="#附：context小练手源码" class="headerlink" title="附：context小练手源码"></a>附：context小练手源码</h3><pre><code class="golang">package main
+
+import (
+    &quot;context&quot;
+    &quot;errors&quot;
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func RequseThirdApi(ctx context.Context, userId int) (bool, error) &#123;
+    time.Sleep(time.Second * 1)
+    if errors.Is(ctx.Err(), context.DeadlineExceeded) &#123;
+        return false, errors.New(&quot;context time out!&quot;)
+    &#125;
+
+    return true, nil
+&#125;
+
+func main() &#123;
+    ctx, cancelFunc := context.WithTimeout(context.Background(), time.Second*2)
+
+    defer cancelFunc()
+
+    if isUser, err := RequseThirdApi(ctx, 021331); err != nil &#123;
+        fmt.Println(&quot;user err!&quot;, err)
+    &#125; else &#123;
+        fmt.Println(&quot;user success!&quot;, isUser)
+    &#125;
+
+&#125;```
+</code></pre>
 
     </div>
     
