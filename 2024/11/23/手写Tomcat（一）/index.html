@@ -198,7 +198,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #03a9f4">
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">
                     笔记
                 </a>
             </span>
@@ -220,7 +220,13 @@
 <li><img src="/../images/%E6%89%8B%E5%86%99Tomcat%EF%BC%88%E4%B8%80%EF%BC%89/img_1.png" alt="img_1.png"></li>
 </ul>
 <h1 id="url发出之后"><a href="#url发出之后" class="headerlink" title="url发出之后"></a>url发出之后</h1><p>首先会根据域名（例如<a target="_blank" rel="noopener" href="http://www.itsme.com)定位到host,然后再根据后面的路径(例如/qwer%EF%BC%89%E5%AE%9A%E4%BD%8D%E5%88%B0context%E4%B8%AD%EF%BC%8Ccontext%E4%B8%AD%E5%B0%B1%E6%98%AF%E6%88%91%E4%BB%ACwebApp%E4%BA%86%EF%BC%8C%E4%B8%80%E4%B8%AAcontext%E4%B8%AD%E5%8F%AA%E8%83%BD%E5%8C%85%E5%90%AB%E4%B8%80%E4%B8%AAwebApp">www.itsme.com）定位到host，然后再根据后面的路径（例如/qwer）定位到context中，context中就是我们webApp了，一个context中只能包含一个webApp</a><br>当然，不能忽视了连接器connector，tomcat支持https、http多种类型的连接器，我的打算是只做http的，类似于https的验证功能交给nginx，把他充当一个小型网关，这些都是后话了  </p>
-<h1 id="Web服务器本质上是实现接口"><a href="#Web服务器本质上是实现接口" class="headerlink" title="Web服务器本质上是实现接口"></a>Web服务器本质上是实现接口</h1><h3 id="在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，知道后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了"><a href="#在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，知道后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了" class="headerlink" title="在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，知道后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了"></a>在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，知道后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了</h3><p>这里就不得不提到Java Servlet API的规范了<br>Java Servlet API的规范，用于定义Web服务器如何处理HTTP请求和响应。<br>Servlet规范有一组接口，对于Web App来说，操作的是接口，而真正对应的实现类，则由各个Web Server实现，这样一来，Java Web App实际上编译的时候仅用到了Servlet规范定义的接口，只要每个Web服务器在实现Servlet接口时严格按照规范实现，就可以保证一个Web App可以正常运行在多种Web服务器上<br>当Servlet容器接收到用户的HTTP请求后，由容器负责把请求转换为HttpServletRequest和HttpServletResponse对象，分别代表HTTP请求和响应，然后，经过若干个Filter组件后，到达最终的Servlet组件，由Servlet组件完成HTTP处理，将响应写入HttpServletResponse对象</p>
+<h1 id="Web服务器本质上是实现接口"><a href="#Web服务器本质上是实现接口" class="headerlink" title="Web服务器本质上是实现接口"></a>Web服务器本质上是实现接口</h1><h3 id="在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，直到后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了"><a href="#在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，直到后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了" class="headerlink" title="在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，直到后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了"></a>在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，直到后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了</h3><p>这里就不得不提到Java Servlet API的规范了<br>Java Servlet API的规范，用于定义Web服务器如何处理HTTP请求和响应。</p>
+<blockquote>
+<p>摘自廖雪峰  </p>
+<blockquote>
+<p>Servlet规范有一组接口，对于Web App来说，操作的是接口，而真正对应的实现类，则由各个Web Server实现，这样一来，Java Web App实际上编译的时候仅用到了Servlet规范定义的接口，只要每个Web服务器在实现Servlet接口时严格按照规范实现，就可以保证一个Web App可以正常运行在多种Web服务器上<br>当Servlet容器接收到用户的HTTP请求后，由容器负责把请求转换为HttpServletRequest和HttpServletResponse对象，分别代表HTTP请求和响应，然后，经过若干个Filter组件后，到达最终的Servlet组件，由Servlet组件完成HTTP处理，将响应写入HttpServletResponse对象  </p>
+</blockquote>
+</blockquote>
 <h1 id="开始动手后的一些发现"><a href="#开始动手后的一些发现" class="headerlink" title="开始动手后的一些发现"></a>开始动手后的一些发现</h1><p>第一天主要耗费在了查询资料和了解架构以及构思上，知道最后开始动手写代码时才发现Java几乎以及准备好了一切。。。<br><strong>HttpExchange————request和response的转换，内置Headers的封装</strong><br><img src="/../images/%E6%89%8B%E5%86%99Tomcat%EF%BC%88%E4%B8%80%EF%BC%89/img_2.png" alt="img_2.png"><br>不过正是如此，让我可以更专注的实现Servlet的内容，<del>如果以后有再深入的机会，可能会尝试下定制请求头这些轮子吧</del><br>ps：在阅读Headers源码的时候的一点有趣的小发现<br><img src="/../images/%E6%89%8B%E5%86%99Tomcat%EF%BC%88%E4%B8%80%EF%BC%89/img_3.png" alt="img_3.png"><br>朴实无华的标准化HTTP 头部字段的名称方法</p>
 
     </div>
