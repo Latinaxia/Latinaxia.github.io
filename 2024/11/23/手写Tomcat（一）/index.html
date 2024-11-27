@@ -17,7 +17,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>Nginx小结 | 草台班子</title>
+    <title>手写Tomcat（一） | 草台班子</title>
     <meta name="author" content="Latinaxia" />
     <meta name="description" content="世界就是个巨大的草台班子" />
     <meta name="keywords" content="" />
@@ -170,14 +170,23 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>Nginx小结</h1>
+        <h1>手写Tomcat（一）</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/9/5
+            2024/11/23
+        </span>
+        
+        <span class="category">
+            <a href="/categories/MyTomcat/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                MyTomcat
+            </a>
         </span>
         
         
@@ -189,7 +198,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #03a9f4">
                     笔记
                 </a>
             </span>
@@ -199,13 +208,20 @@
     </div>
     
     <div class="content" v-pre>
-        <p>这些天本来打算部署一个小项目练手，却发现明明已经用了一年nginx了，却连配置都不会，往往都是跟着视频囫囵吞枣。今天便花了点时间学习了一些基本操作。</p>
-<h3 id="正向代理和反向代理"><a href="#正向代理和反向代理" class="headerlink" title="正向代理和反向代理"></a>正向代理和反向代理</h3><p>在使用nginx——目前最流行的web服务器软件之前，有必要先搞懂这两个概念：正向代理和反向代理是什么？<br>简单通俗的来说    </p>
-<p> <strong>正向代理</strong>就是代理客户端<br>比如用vpn访问外网，就是用vpn的那个服务器代理成客户端向外网发请求，然后结果返回到我们自己的设备上  </p>
-<p><strong>反向代理</strong>就是代理服务端<br>比如Google网站后面有许多服务器，但是对外只暴露一个域名，我们都通过这一个域名来访问，从而隐藏了真实服务器的ip，端口等信息</p>
-<h3 id="nginx的基本指令"><a href="#nginx的基本指令" class="headerlink" title="nginx的基本指令"></a>nginx的基本指令</h3><p><code>nginx</code>  启动命令 不报错就是正常运行<br><code>nginx -s reload</code>  重启，每次更改完配置都要重启<br><code>nginx -t</code>  检查配置文件的正确性<br><code>nginx -s quit</code>  服务平滑停止  </p>
-<h3 id="nginx配置文件"><a href="#nginx配置文件" class="headerlink" title="nginx配置文件"></a>nginx配置文件</h3><p>我的理解中nginx的conf配置文件主要分为三块<br><img src="/../images/Nginx%E5%B0%8F%E7%BB%93/img.png" alt="img.png"><br><strong>全局块：</strong> 配置全局，如<em>worker_process</em>就是服务器的进程数，建议设置为auto即和电脑cpu内核数自动匹配<br>nginx中由一个master进程管理多个worker进程，关系图如下：<br><img src="/../images/Nginx%E5%B0%8F%E7%BB%93/img1.png" alt="img.png"><br>master进程负责读取配置文件等，而worker进程则负责处理实际请求，它们之间的关系就如老板和员工一样，master只能有一个<br><strong>events块：</strong> 服务器和客户端之间的网络连接配置。例如<em>worker_connections</em>就是指定每个服务器进程可以接收多少个网络连接<br><strong>http块：</strong> 改动最频繁的块，里面又有多个server块，每一个又称为一台<em><strong>虚拟主机</strong></em></p>
-<h4 id="在以上的配置文件中，我就编写了三个Java程序分别监听8000、8001、8002三个端口，然后通过反向代理到-app路径，可以在localhost-app访问这三个端口"><a href="#在以上的配置文件中，我就编写了三个Java程序分别监听8000、8001、8002三个端口，然后通过反向代理到-app路径，可以在localhost-app访问这三个端口" class="headerlink" title="在以上的配置文件中，我就编写了三个Java程序分别监听8000、8001、8002三个端口，然后通过反向代理到&#x2F;app路径，可以在localhost&#x2F;app访问这三个端口"></a>在以上的配置文件中，我就编写了三个Java程序分别监听8000、8001、8002三个端口，然后通过反向代理到&#x2F;app路径，可以在localhost&#x2F;app访问这三个端口</h4><h4 id="服务器默认负载均衡的是轮询，ip-hash则是根据客户端IP地址进行一个hash，同一个客户端请求总会被分配到同一个服务器上"><a href="#服务器默认负载均衡的是轮询，ip-hash则是根据客户端IP地址进行一个hash，同一个客户端请求总会被分配到同一个服务器上" class="headerlink" title="服务器默认负载均衡的是轮询，ip_hash则是根据客户端IP地址进行一个hash，同一个客户端请求总会被分配到同一个服务器上"></a>服务器默认负载均衡的是轮询，ip_hash则是根据客户端IP地址进行一个hash，同一个客户端请求总会被分配到同一个服务器上</h4><h4 id="当然，也可以指定服务器的权重，通过在端口后加weight-实现，权重越大，被分配到的请求次数也就越多"><a href="#当然，也可以指定服务器的权重，通过在端口后加weight-实现，权重越大，被分配到的请求次数也就越多" class="headerlink" title="当然，也可以指定服务器的权重，通过在端口后加weight=?实现，权重越大，被分配到的请求次数也就越多"></a>当然，也可以指定服务器的权重，通过在端口后加<code>weight=?</code>实现，权重越大，被分配到的请求次数也就越多</h4><p>以上的操作都是通过http协议进行的，在获取ssl证书后就可以使用更安全https协议了。</p>
+        <p><strong>写在前面的一些心里话</strong><br>大三开学以来心力交瘁，感觉是大学以来最累的一段时光，家长催着考研，自己心里也不坚定。<br>身边的朋友不少已经实习，落雨甚至都从字节跑回来了，感觉自己进度太慢，焦虑愈发严重。<br>本打算九月十月准备好项目，十一月开投，在寒假后做一个了断（考研还是就业）<br>结果九月实验室招新一堆事儿，十月份天天熬夜总算肝完了头条，白头发也多了不少，十一月还没开始写简历就病一场，病好后各种考试实验接踵而至。<br>同时又报了字节青训营，那边Go的进度也落下不少，拖欠了快十节课没看了。深感一心不能多用，心里也慢慢的倾向考研了。一来提升学历二来延长学习时间<br>不过实习还是要试试的，大概在寒假前投一投看看吧。下周开始平均下来一天只有一节课了，虽然有考试压力，但时间还是充沛的，放下项目和八股，来实施我心里一直想做的一件事<br><strong>手搓web服务器！！！</strong></p>
+<p>最开始的打算是用Go写的，不过我并不满足于demo，而是想搓一个能部署web项目的服务器来，所以还是拿自己学的最久的Java来罢<br>现在犹记得大一刚开始写Javaweb的时候，费老半天劲儿下了tomact往上面部署项目，才发现springboot内置tomact之后气急败坏的情形（<br>tomact也算是最流行的开源web服务器了，我当然不敢说完全照着来，能实现一部分功能（当然，最基本的是能部署项目）我就深感荣幸</p>
+<h1 id="Tomcat架构"><a href="#Tomcat架构" class="headerlink" title="Tomcat架构"></a>Tomcat架构</h1><p>在网上扒拉了些文章，最后发现b站的视频讲的最清楚，Tomcat架构应当如下<br><img src="/../images/%E6%89%8B%E5%86%99Tomcat%EF%BC%88%E4%B8%80%EF%BC%89/img.png" alt="img.png"></p>
+<p>这也解释了为什么一台电脑能部署多个网站<br>请求消息中的主机名被连接器识别出来放入request，然后根据request中的主机名，找到对应的虚拟主机，然后把请求转发给虚拟主机处理</p>
+<ul>
+<li>一台虚拟主机中通常部署多个应用，一个应用对应一个context对象</li>
+<li>context中又有多个不同的servlet，每个servlet可以有多个不同的实例，同一个servlet的所有实例交给一个容器wrapper管理</li>
+<li>实际上这里的engine、host、context、wrapper都是容器</li>
+<li>连接器最后将response对象转换为字节流返回给浏览器</li>
+<li><img src="/../images/%E6%89%8B%E5%86%99Tomcat%EF%BC%88%E4%B8%80%EF%BC%89/img_1.png" alt="img_1.png"></li>
+</ul>
+<h1 id="url发出之后"><a href="#url发出之后" class="headerlink" title="url发出之后"></a>url发出之后</h1><p>首先会根据域名（例如<a target="_blank" rel="noopener" href="http://www.itsme.com)定位到host,然后再根据后面的路径(例如/qwer%EF%BC%89%E5%AE%9A%E4%BD%8D%E5%88%B0context%E4%B8%AD%EF%BC%8Ccontext%E4%B8%AD%E5%B0%B1%E6%98%AF%E6%88%91%E4%BB%ACwebApp%E4%BA%86%EF%BC%8C%E4%B8%80%E4%B8%AAcontext%E4%B8%AD%E5%8F%AA%E8%83%BD%E5%8C%85%E5%90%AB%E4%B8%80%E4%B8%AAwebApp">www.itsme.com）定位到host，然后再根据后面的路径（例如/qwer）定位到context中，context中就是我们webApp了，一个context中只能包含一个webApp</a><br>当然，不能忽视了连接器connector，tomcat支持https、http多种类型的连接器，我的打算是只做http的，类似于https的验证功能交给nginx，把他充当一个小型网关，这些都是后话了  </p>
+<h1 id="Web服务器本质上是实现接口"><a href="#Web服务器本质上是实现接口" class="headerlink" title="Web服务器本质上是实现接口"></a>Web服务器本质上是实现接口</h1><h3 id="在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，知道后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了"><a href="#在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，知道后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了" class="headerlink" title="在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，知道后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了"></a>在学习之前我一直以为是Java要实现服务器的规范，刚看的Tomcat中要实现JavaAPI的时候我也感到不可置信，知道后面才发现能用Tomcat部署的服务只有Java和JSP。。。可以说是为Java量身打造了</h3><p>这里就不得不提到Java Servlet API的规范了<br>Java Servlet API的规范，用于定义Web服务器如何处理HTTP请求和响应。<br>Servlet规范有一组接口，对于Web App来说，操作的是接口，而真正对应的实现类，则由各个Web Server实现，这样一来，Java Web App实际上编译的时候仅用到了Servlet规范定义的接口，只要每个Web服务器在实现Servlet接口时严格按照规范实现，就可以保证一个Web App可以正常运行在多种Web服务器上<br>当Servlet容器接收到用户的HTTP请求后，由容器负责把请求转换为HttpServletRequest和HttpServletResponse对象，分别代表HTTP请求和响应，然后，经过若干个Filter组件后，到达最终的Servlet组件，由Servlet组件完成HTTP处理，将响应写入HttpServletResponse对象</p>
+<h1 id="开始动手后的一些发现"><a href="#开始动手后的一些发现" class="headerlink" title="开始动手后的一些发现"></a>开始动手后的一些发现</h1><p>第一天主要耗费在了查询资料和了解架构以及构思上，知道最后开始动手写代码时才发现Java几乎以及准备好了一切。。。<br><strong>HttpExchange————request和response的转换，内置Headers的封装</strong><br><img src="/../images/%E6%89%8B%E5%86%99Tomcat%EF%BC%88%E4%B8%80%EF%BC%89/img_2.png" alt="img_2.png"><br>不过正是如此，让我可以更专注的实现Servlet的内容，<del>如果以后有再深入的机会，可能会尝试下定制请求头这些轮子吧</del><br>ps：在阅读Headers源码的时候的一点有趣的小发现<br><img src="/../images/%E6%89%8B%E5%86%99Tomcat%EF%BC%88%E4%B8%80%EF%BC%89/img_3.png" alt="img_3.png"><br>朴实无华的标准化HTTP 头部字段的名称方法</p>
 
     </div>
     

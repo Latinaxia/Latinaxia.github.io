@@ -198,7 +198,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E9%9A%8F%E6%83%B3/" style="color: #00bcd4">
+                <a href="/tags/%E9%9A%8F%E6%83%B3/" style="color: #00a596">
                     随想
                 </a>
             </span>
@@ -212,7 +212,7 @@
 <hr>
 <p>参考<a target="_blank" rel="noopener" href="https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-context/#612-%E9%BB%98%E8%AE%A4%E4%B8%8A%E4%B8%8B%E6%96%87">Go语言的设计实现</a>（看完后才发现作者是k8s的contributor，膜拜）<br>但是因为go的版本不同源码有点小小的变换，整体思路是一致的。</p>
 <hr>
-<p>学go也有大半个月了，速通了基础语法和gin，做了IM和shorter-url练手，感觉不错。但最近整体还是很迷茫，做好了考研的打算但还是放不下自己的三脚猫功夫。反正时间还早，索性就跟着兴趣学了。<br>刚好前段时间看了小徐先生的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1k14y117di/?spm_id_from=333.1365.top_right_bar_window_default_collection.content.click&vd_source=ba555caf87e1e2f9c37b53d8c4b0e3e8">Golang打怪升级之路</a><br>，他在筑基篇提到的大多数技术我都在Java中有所了解，唯有context除外。而Gin中context也是频繁出现</p>
+<p>学go也有大半个月了，速通了基础语法和gin，做了IM和shorter-url练手，感觉不错。但最近整体还是很迷茫，做好了考研的打算但还是放不下自己的三脚猫功夫。反正时间还早，索性就跟着兴趣学了。<br>刚好前段时间看了小徐先生的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1k14y117di/?spm_id_from=333.1365.top_right_bar_window_default_collection.content.click&vd_source=ba555caf87e1e2f9c37b53d8c4b0e3e8">Golang打怪升级之路</a><br>他在筑基篇提到的大多数技术我都在Java中有所了解，唯有context除外。而Gin中context也是频繁出现</p>
 <h1 id="设计原理"><a href="#设计原理" class="headerlink" title="设计原理"></a>设计原理</h1><p><strong>Go语言设计与实现</strong>的定义中，上下文 context.Context是</p>
 <blockquote>
 <p><em><strong>用来设置截止日期、同步信号，传递请求相关值的结构体</strong></em></p>
@@ -230,7 +230,7 @@
 <p>在 Goroutine 构成的树形结构中对信号进行同步以减少计算资源的浪费是 context.Context 的最大作用。<br>Go 服务的每一个请求都是通过单独的 Goroutine 处理的2，HTTP&#x2F;RPC 请求的处理器会启动新的 Goroutine 访问数据库和其他服务。</p>
 </blockquote>
 <p>这里goroutine的底层我还没有能力看，只用知道context是go协程的同步有用。在一次请求中，我们可能会创建多个goroutine，这些协程之间需要同步的数据，context因此产生，“上下文”用来形容真的是再好不过了<br>附一张大佬的图<br><img src="/../images/%E6%B5%85%E6%8C%96%E4%B8%8A%E4%B8%8B%E6%96%87context%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0/img.png" alt="img.png"></p>
-<h1 id="常用实现"><a href="#常用实现" class="headerlink" title="常用实现"></a>常用实现</h1><p>这段时间的学习中，go中最常用的context实现大概是<strong>context.Background</strong>和<strong>context.TODO</strong>，看了下源码，二者其实又没有区别，都是返回了一个emptyCtx，也就是一个空的context。<br><img src="/../images/%E6%B5%85%E6%8C%96%E4%B8%8A%E4%B8%8B%E6%96%87context%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0/img1.png" alt="img.png"><br>可以看到emptyCtx也是通过空方法实现了 context.Context 接口中的所有方法，它没有任何功能。正是如此，我们才能自由发挥。<br>Gin中的gin.Context也视为标准库的 context.Context 的一个超集，是松子酒基石（想写自己的goweb框架是不是也要从这方面入手？以后再看看其他框架是怎么做的吧）</p>
+<h1 id="常用实现"><a href="#常用实现" class="headerlink" title="常用实现"></a>常用实现</h1><p>这段时间的学习中，go中最常用的context实现大概是<strong>context.Background</strong>和<strong>context.TODO</strong>，看了下源码，二者其实又没有区别，都是返回了一个emptyCtx，也就是一个空的context。<br>早期的go语言中这里传的是*emptyCtx，现在已经改成了emptyCtx。毕竟空结构体占用内存很小，直接传值观感上更加方便<br><img src="/../images/%E6%B5%85%E6%8C%96%E4%B8%8A%E4%B8%8B%E6%96%87context%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0/img1.png" alt="img.png"><br>可以看到emptyCtx也是通过空方法实现了 context.Context 接口中的所有方法，它没有任何功能。正是如此，我们才能自由发挥。<br>Gin中的gin.Context也视为标准库的 context.Context 的一个超集，是松子酒基石（想写自己的goweb框架是不是也要从这方面入手？以后再看看其他框架是怎么做的吧）</p>
 <h2 id="取消方法"><a href="#取消方法" class="headerlink" title="取消方法"></a>取消方法</h2><p>有始有终，常用的context取消方法几乎都是WithXXX（WithValue除外），原理都一样。  摘取其中一个的解释</p>
 <blockquote>
 <p>context.WithCancel 函数能够从 context.Context 中衍生出一个新的子上下文并返回用于取消该上下文的函数。<br>一旦我们执行返回的取消函数，当前上下文以及它的子上下文都会被取消，所有的 Goroutine 都会同步收到这一取消信号。</p>
